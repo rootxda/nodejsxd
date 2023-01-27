@@ -49,6 +49,19 @@ app.post("/api/v1/tour", (req, res) => {
     }
   );
 });
+
+app.delete("/api/v1/tour/:id", (req, res) => {
+  const id = req.params.id * 1;
+ 
+
+  if (id > tours.length) {
+    return res.status(404).json({ status: "fail", body: "not found" });
+  }
+
+  res.status(204).json({ status: "success", data: "null" });
+});
+
+
 app.listen(port, () => {
   console.log("app running on port 3000");
 });
