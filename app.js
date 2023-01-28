@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
+const morgan = require("morgan");
 const port = 3000;
 app.use(express.json());
+app.use(morgan("dev"));
 // app.get("/", (req, res) => {
 //   res.status(404).json({ message: "hiii", msg: "hello" });
 // });
@@ -10,10 +12,13 @@ app.use(express.json());
 // app.post("/", (req, res) => {
 //   res.send("hii post");
 // });
+
+//middlewares----------------------
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+//functions-------------------------------------
 const getAlltours = (req, res) => {
   res
     .status(200)
@@ -60,15 +65,42 @@ const deleteTour = (req, res) => {
   res.status(204).json({ status: "success", data: "null" });
 };
 
+const getAllUsers = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "this route is not yet implemented",
+  });
+};
+
+const createUser = (req, res) => {
+  res.send(500).json({
+    status: "error",
+    message: "this route is not yet implemented",
+  });
+};
 // app.get("/api/v1/tour", getAlltours);
 // app.get("/api/v1/tour/:id", getTour);
 // app.post("/api/v1/tour", createTour);
 // app.delete("/api/v1/tour/:id", deleteTour);
 
-app.route("/api/v1/tour").get(getAlltours).post(createTour);
+const tourRouter = express.Router();
+const userRouter = express.Router();
 
-app.route("/api/v1/tour/:id").get(getTour).delete(deleteTour);
+//routes-------------------------------------------------
 
+tourRouter.route("/").get(getAlltours).post(createTour);
+
+tourRouter.route("/:id").get(getTour).delete(deleteTour);
+
+userRouter.route("/").get(getAllUsers).post(createUser);
+
+app.use("/api/v1/tour", tourRouter);
+app.use("/api/v1/users", userRouter);
+// app
+//   .route("/api/v1/users/:id")
+//   .get(getUser)
+//   .patch(updateUser)
+//   .delete(deleteUser);
 app.listen(port, () => {
   console.log("app running on port 3000");
 });
