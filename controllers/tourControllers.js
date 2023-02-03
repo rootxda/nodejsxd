@@ -1,4 +1,5 @@
 const express = require("express");
+const Tour = require('./../modals/tourModel')
 const fs = require("fs");
 
 const tours = JSON.parse(
