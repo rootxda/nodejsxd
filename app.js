@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
-const { Telegraf } = require('telegraf');
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
 const morgan = require("morgan");
 
 
@@ -18,17 +16,7 @@ const userRouter = require("./routes/userRoutes");
 
 
 
-bot.start(async(ctx) => {
-    const tours = await Tour.find();
-    
-    ctx.reply(tours[tours.length-1].name)});
 
-
-
-bot.help((ctx) => ctx.reply('Send me a sticker'));
-bot.on('sticker', (ctx) => ctx.reply('👍'));
-bot.hears('hi', (ctx) => ctx.reply('Hey there'));
-bot.launch();
 
 
 
